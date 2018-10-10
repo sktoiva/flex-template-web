@@ -9,6 +9,7 @@ import { PayoutDetailsForm } from '../../forms';
 import { Modal, NamedRedirect, Tabs } from '../../components';
 
 import EditListingWizardTab, {
+  AVAILABILITY,
   DESCRIPTION,
   FEATURES,
   POLICY,
@@ -20,7 +21,7 @@ import css from './EditListingWizard.css';
 
 // TODO: PHOTOS panel needs to be the last one since it currently contains PayoutDetailsForm modal
 // All the other panels can be reordered.
-export const TABS = [DESCRIPTION, FEATURES, POLICY, LOCATION, PRICING, PHOTOS];
+export const TABS = [DESCRIPTION, FEATURES, POLICY, LOCATION, PRICING, AVAILABILITY, PHOTOS];
 
 // Tabs are horizontal in small screens
 const MAX_HORIZONTAL_NAV_SCREEN_WIDTH = 1023;
@@ -37,6 +38,8 @@ const tabLabel = (intl, tab) => {
     key = 'EditListingWizard.tabLabelLocation';
   } else if (tab === PRICING) {
     key = 'EditListingWizard.tabLabelPricing';
+  } else if (tab === AVAILABILITY) {
+    key = 'EditListingWizard.tabLabelAvailability';
   } else if (tab === PHOTOS) {
     key = 'EditListingWizard.tabLabelPhotos';
   }
@@ -67,6 +70,8 @@ const tabCompleted = (tab, listing) => {
       return !!(geolocation && publicData && publicData.location && publicData.location.address);
     case PRICING:
       return !!price;
+    case AVAILABILITY:
+      return true; //TODO fix this
     case PHOTOS:
       return images && images.length > 0;
     default:
