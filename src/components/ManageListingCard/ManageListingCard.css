@@ -24,7 +24,6 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  cursor: pointer;
 
   /* Remove link's hover effect */
   &:hover {
@@ -77,6 +76,7 @@
   width: 100%;
   position: relative;
   transition: var(--transitionStyleButton);
+  cursor: pointer;
 
   &:hover {
     transform: scale(1.02);
@@ -203,22 +203,33 @@
 .info {
   /* Layout */
   display: flex;
-  flex-direction: row;
-  padding: 16px 0 2px 0;
+  flex-direction: column;
+  padding: 8px 0 2px 0;
 }
 
 .price {
   /* Layout */
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  flex-direction: row;
+  align-items: baseline;
   flex-shrink: 0;
-  margin-right: 18px;
+
+  padding-top: 4px;
+  padding-bottom: 2px;
+
+  @media (--viewportMedium) {
+    padding-top: 5px;
+    padding-bottom: 3px;
+  }
 }
 
 .priceValue {
   /* Font */
-  @apply --marketplaceH3FontStyles;
+  @apply --marketplaceH4FontStyles;
+  color: var(--marketplaceColor);
+  font-weight: var(--fontWeightSemiBold);
+
+  margin-right: 4px;
 
   /* Remove default margins from font */
   margin-top: 0;
@@ -251,16 +262,26 @@
   flex-grow: 1;
 }
 
+.titleWrapper {
+}
+
 .title {
   /* Font */
   @apply --marketplaceH3FontStyles;
   color: var(--matterColor);
+  text-align: left;
+
+  padding-top: 3px;
+  padding-bottom: 3px;
 
   /* Remove default margins from font */
   margin-top: 0;
   margin-bottom: 0;
 
   @media (--viewportMedium) {
+    padding-top: 4px;
+    padding-bottom: 4px;
+
     margin-top: 0;
     margin-bottom: 0;
   }
@@ -382,4 +403,39 @@
 
 .cardIsOpen {
   display: block;
+}
+
+.manageLinks {
+  @apply --marketplaceH5FontStyles;
+  line-height: 18px;
+  padding-top: 2px;
+  padding-bottom: 4px;
+
+  /* Remove default margins from font */
+  margin-top: 0;
+  margin-bottom: 0;
+
+  @media (--viewportMedium) {
+    line-height: 24px;
+    padding-top: 0;
+    padding-bottom: 0;
+
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+.manageLink {
+  text-decoration: none;
+  color: var(--matterColor);
+  white-space: pre;
+
+  &:hover {
+    text-decoration: underline;
+    color: var(--matterColorDark);
+  }
+}
+
+.manageLinksSeparator {
+  margin: 0 3px 0 3px;
 }

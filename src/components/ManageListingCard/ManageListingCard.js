@@ -10,16 +10,17 @@ import { formatMoney } from '../../util/currency';
 import { ensureOwnListing } from '../../util/data';
 import { LISTING_PAGE_PENDING_APPROVAL_VARIANT, createSlug } from '../../util/urlHelpers';
 import { createResourceLocatorString } from '../../util/routes';
+import config from '../../config';
 import {
   InlineTextButton,
   Menu,
   MenuLabel,
   MenuContent,
   MenuItem,
+  NamedLink,
   IconSpinner,
   ResponsiveImage,
 } from '../../components';
-import config from '../../config';
 
 import MenuIcon from './MenuIcon';
 import css from './ManageListingCard.css';
@@ -45,14 +46,6 @@ const priceData = (price, intl) => {
     };
   }
   return {};
-};
-
-const createEditListingURL = (routes, listing) => {
-  const id = listing.id.uuid;
-  const slug = createSlug(listing.attributes.title);
-  const pathParams = { id, slug, type: 'edit', tab: 'description' };
-
-  return createResourceLocatorString('EditListingPage', routes, pathParams, {});
 };
 
 const createListingURL = (routes, listing) => {
@@ -113,6 +106,7 @@ export const ManageListingCardComponent = props => {
   const currentListing = ensureOwnListing(listing);
   const id = currentListing.id.uuid;
   const { title = '', price, state } = currentListing.attributes;
+  const slug = createSlug(title);
   const isPendingApproval = state === LISTING_STATE_PENDING_APPROVAL;
   const isClosed = state === LISTING_STATE_CLOSED;
   const firstImage =
@@ -217,22 +211,22 @@ export const ManageListingCardComponent = props => {
   });
 
   return (
-    <div
-      className={classes}
-      tabIndex={0}
-      onClick={event => {
-        event.preventDefault();
-        event.stopPropagation();
+    <div className={classes}>
+      <div
+        className={css.threeToTwoWrapper}
+        tabIndex={0}
+        onClick={event => {
+          event.preventDefault();
+          event.stopPropagation();
 
-        // ManageListingCard contains links, buttons and elements that are working with routing.
-        // This card doesn't work if <a> or <button> is used to wrap events that are card 'clicks'.
-        //
-        // NOTE: It might be better to absolute-position those buttons over a card-links.
-        // (So, that they have no parent-child relationship - like '<a>bla<a>blaa</a></a>')
-        history.push(createListingURL(routeConfiguration(), listing));
-      }}
-    >
-      <div className={css.threeToTwoWrapper}>
+          // ManageListingCard contains links, buttons and elements that are working with routing.
+          // This card doesn't work if <a> or <button> is used to wrap events that are card 'clicks'.
+          //
+          // NOTE: It might be better to absolute-position those buttons over a card-links.
+          // (So, that they have no parent-child relationship - like '<a>bla<a>blaa</a></a>')
+          history.push(createListingURL(routeConfiguration(), listing));
+        }}
+      >
         <div className={css.aspectWrapper}>
           <ResponsiveImage
             rootClassName={css.rootForImage}
@@ -291,6 +285,7 @@ export const ManageListingCardComponent = props => {
         {pendingApprovalOverlay}
         {loadingOrErrorOverlay}
       </div>
+
       <div className={css.info}>
         <div className={css.price}>
           <div className={css.priceValue} title={priceTitle}>
@@ -300,19 +295,41 @@ export const ManageListingCardComponent = props => {
             <FormattedMessage id="ManageListingCard.perUnit" />
           </div>
         </div>
+
         <div className={css.mainInfo}>
-          <div className={titleClasses}>{formatTitle(title, MAX_LENGTH_FOR_WORDS_IN_TITLE)}</div>
+          <div className={css.titleWrapper}>
+            <InlineTextButton
+              className={titleClasses}
+              onClick={event => {
+                event.preventDefault();
+                event.stopPropagation();
+                history.push(createListingURL(routeConfiguration(), listing));
+              }}
+            >
+              {formatTitle(title, MAX_LENGTH_FOR_WORDS_IN_TITLE)}
+            </InlineTextButton>
+          </div>
         </div>
-        <button
-          className={css.edit}
-          onClick={event => {
-            event.preventDefault();
-            event.stopPropagation();
-            history.push(createEditListingURL(routeConfiguration(), listing));
-          }}
-        >
-          <FormattedMessage id="ManageListingCard.edit" />
-        </button>
+
+        <div className={css.manageLinks}>
+          <NamedLink
+            className={css.manageLink}
+            name="EditListingPage"
+            params={{ id, slug, type: 'edit', tab: 'description' }}
+          >
+            <FormattedMessage id="ManageListingCard.editListing" />
+          </NamedLink>
+
+          <span className={css.manageLinksSeparator}>{' • '}</span>
+
+          <NamedLink
+            className={css.manageLink}
+            name="EditListingPage"
+            params={{ id, slug, type: 'edit', tab: 'availability' }}
+          >
+            <FormattedMessage id="ManageListingCard.manageAvailability" />
+          </NamedLink>
+        </div>
       </div>
     </div>
   );
