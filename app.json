@@ -7,13 +7,19 @@
     "REACT_APP_MAPBOX_ACCESS_TOKEN": {"description": "See: Integrating to map providers."},
     "REACT_APP_SHARETRIBE_SDK_CLIENT_ID": {"description": "Client ID (API key). You will get this from the Sharetribe team."},
     "REACT_APP_STRIPE_PUBLISHABLE_KEY": {"description": "Stripe publishable API key for generating tokens with Stripe API. Use test key (prefix pktest) for development."},
+    "REACT_APP_SHARETRIBE_SDK_BASE_URL": {"description": "The base url to access the Sharetribe Flex Marketplace API.",
+                                          "value": "https://flex-api.sharetribe.com/"},
     "REACT_APP_SHARETRIBE_MARKETPLACE_CURRENCY": {"description": "The currency used in the Marketplace as ISO 4217 currency code. For example: USD, EUR, CAD, AUD, etc."},
     "REACT_APP_CANONICAL_ROOT_URL": {"description": "Canonical root url of the marketplace. Needed for social media sharing and SEO optimization."},
-    "REACT_APP_SHARETRIBE_SDK_BASE_URL":  "https://flex-api.sharetribe.com/",
-    "NODE_ENV": "production",
-    "REACT_APP_ENV": "demo",
-    "REACT_APP_SHARETRIBE_USING_SSL": "true",
-    "SERVER_SHARETRIBE_TRUST_PROXY": "true",
-    "REACT_APP_CSP": "true"
+    "NODE_ENV": {"description": "Node env. Use 'development' for development and 'production' for production.",
+                 "value": "production"},
+    "REACT_APP_ENV": {"description": "A more fine grained env definition than NODE_ENV. Is used for example to differentiate envs in logging.",
+                      "value": "demo"},
+    "REACT_APP_SHARETRIBE_USING_SSL": {"description": "Redirect HTTP to HTTPS?",
+                                       "value": "true"},
+    "SERVER_SHARETRIBE_TRUST_PROXY": {"description": "Set when running the app behind a reverse proxy, e.g. in Heroku.",
+                                      "value": "true"},
+    "REACT_APP_CSP": {"description": "See: Content Security Policy (CSP)",
+                      "value": "true"}
   }
 }
